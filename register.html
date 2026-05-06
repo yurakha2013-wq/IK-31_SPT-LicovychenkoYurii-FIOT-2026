@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Реєстрація — Scanlate Tracker</title>
+    <link rel="icon" href="Logo.svg" type="image/svg+xml">
+    <script src="theme.js"></script>
+    <link rel="stylesheet" href="style-login.css">
+    <link rel="stylesheet" href="theme.css">
+</head>
+<body>
+<div class="login-card">
+    <div class="brand-header">
+        <img src="Logo.svg" alt="Logo" class="main-logo">
+        <div class="brand-text-login">
+            <div class="brand-name">SCANLATE<br>PROJECT<br>TRACKER</div>
+            <span class="brand-beta">Beta</span>
+        </div>
+    </div>
+
+    <h2 class="form-title">Реєстрація</h2>
+
+    <form id="authForm">
+        <div class="input-group">
+            <input type="text" name="nickname" id="nickname" placeholder="Нікнейм" autocomplete="nickname" maxlength="30" required>
+        </div>
+        <div class="input-group">
+            <input type="email" name="email" placeholder="Електронна пошта" autocomplete="email" inputmode="email" maxlength="120" spellcheck="false" required>
+        </div>
+        <div class="input-group">
+            <input type="password" name="password" id="password" placeholder="Пароль" autocomplete="new-password" minlength="8" maxlength="72" required>
+            <img src="eye-off-svgrepo-com.svg" id="togglePassword" class="toggle-password" alt="Показати пароль">
+        </div>
+
+        <button type="submit" class="btn-submit">Зареєструватися</button>
+
+        <button type="button" class="btn-google" id="googleBtn">
+            <img src="google-svgrepo-com.svg" alt="Google"> Реєстрація через Google
+        </button>
+
+        <div class="footer-links">
+            <a href="login.html" class="link-secondary">Уже є акаунт? Увійти</a>
+        </div>
+    </form>
+</div>
+<script type="module" src="script-login.js"></script>
+<script src="footer.js"></script>
+</body>
+</html>

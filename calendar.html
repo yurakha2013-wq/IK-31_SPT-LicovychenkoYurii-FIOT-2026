@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scanlate Tracker — Календар</title>
+    <link rel="icon" href="Logo.svg" type="image/svg+xml">
+    <script src="theme.js"></script>
+    <link rel="stylesheet" href="base.css">
+    <link rel="stylesheet" href="theme.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .calendar-header-row { display:flex; justify-content:space-between; align-items:center; margin-bottom:20px; gap:12px; flex-wrap:wrap; }
+        .calendar-header-row h3 { margin:0; }
+        .week-nav { display:flex; align-items:center; gap:10px; }
+        .week-label { font-size:13px; font-weight:800; color:#b1a191; text-transform:uppercase; min-width:200px; text-align:center; }
+        .btn-week { width:36px; height:36px; border:1.5px solid rgba(72,40,19,0.15); border-radius:10px; background:#fdfaf7; color:var(--main-brown); font-size:14px; cursor:pointer; display:flex; align-items:center; justify-content:center; transition:background 0.15s,border-color 0.15s; }
+        .btn-week:hover:not(:disabled) { background:var(--light-bg); border-color:var(--main-brown); }
+        .btn-week:disabled { opacity:0.3; cursor:not-allowed; }
+
+        .calendar-grid { display:grid; grid-template-columns:repeat(7,1fr); gap:10px; }
+        @media(max-width:900px){ .calendar-grid { grid-template-columns:repeat(3,1fr); } }
+        @media(max-width:580px){ .calendar-grid { grid-template-columns:repeat(2,1fr); } }
+
+        .day-col { background:#fdfaf7; border-radius:16px; overflow:hidden; border:1px solid rgba(72,40,19,0.08); display:flex; flex-direction:column; }
+        .day-header { padding:10px 8px 8px; text-align:center; border-bottom:1px solid rgba(72,40,19,0.08); display:flex; flex-direction:column; align-items:center; gap:2px; }
+        .day-name { font-size:10px; font-weight:900; text-transform:uppercase; color:#b1a191; letter-spacing:.5px; }
+        .day-date { font-size:20px; font-weight:900; color:var(--main-brown); line-height:1; }
+        .day-col.today .day-header { background:var(--main-brown); }
+        .day-col.today .day-name, .day-col.today .day-date { color:#fff; }
+        .day-tasks { padding:8px; display:flex; flex-direction:column; gap:8px; flex:1; }
+
+        /* ── Карточка задачи ── */
+        .cal-card { border-radius:12px; overflow:hidden; box-shadow:0 2px 8px rgba(72,40,19,0.1); transition:transform .2s,box-shadow .2s; }
+        .cal-card:hover { transform:translateY(-2px); box-shadow:0 6px 18px rgba(72,40,19,0.18); }
+
+        /* Обложка */
+        .cal-card-cover {
+            height:160px;
+            background-size:cover; background-position:center top;
+            background-color:var(--light-bg);
+            position:relative;
+            cursor:pointer;
+            overflow:hidden;
+        }
+
+        /* Тёмный градиент снизу */
+        .cal-overlay {
+            position:absolute; inset:0;
+            background:linear-gradient(to bottom, rgba(40,18,5,0.1) 0%, rgba(40,18,5,0.7) 100%);
+            transition:background 0.2s;
+        }
+        /* При готово — слегка зеленоватый оттенок */
+        .cal-card-done .cal-overlay {
+            background:linear-gradient(to bottom, rgba(20,80,40,0.1) 0%, rgba(20,80,40,0.65) 100%);
+        }
+
+        /* ── Кружок-галочка ── */
+        .cal-check-badge {
+            position:absolute;
+            top:50%; left:50%;
+            transform:translate(-50%,-60%);
+            z-index:3;
+            width:46px; height:46px;
+            border-radius:50%;
+            /* кофейный полупрозрачный */
+            background:rgba(255,255,255,0.45);
+            backdrop-filter:blur(3px);
+            display:flex; align-items:center; justify-content:center;
+            /* скрыт по умолчанию */
+            opacity:0;
+            transition:opacity 0.2s, transform 0.2s;
+            pointer-events:none; /* клик проходит сквозь — ловим на .cal-card-cover */
+        }
+        .cal-check-badge i {
+            font-size:20px;
+            color:#4ade80; /* зелёная галочка */
+            filter:drop-shadow(0 1px 3px rgba(0,0,0,0.3));
+        }
+
+        /* При hover на обложку — показываем кружок */
+        .cal-card-cover:hover .cal-check-badge { opacity:1; transform:translate(-50%,-60%) scale(1.08); }
+
+        /* Если готово — кружок виден всегда, галочка ярче */
+        .cal-card-done .cal-check-badge {
+            opacity:1;
+            background:rgba(255,255,255,0.35);
+        }
+        .cal-card-done .cal-check-badge i { color:#22c55e; }
+
+        /* Текст на обложке */
+        .cal-card-cover-text { position:absolute; bottom:0; left:0; right:0; z-index:2; padding:10px 10px 8px; color:#fff; }
+        .cal-project-name { font-size:12px; font-weight:900; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; line-height:1.2; }
+        .cal-chapter-line { font-size:11px; font-weight:700; opacity:.85; margin-top:2px; }
+
+        /* Нижняя часть карточки */
+        .cal-card-body { padding:7px 10px; background:#fff; border-top:1px solid rgba(72,40,19,.06); }
+        .cal-meta { display:flex; flex-wrap:wrap; gap:4px; }
+        .cal-chip { border-radius:6px; padding:3px 8px; font-size:10px; font-weight:800; }
+        .cal-chip.task  { background:#f5ede3; color:var(--main-brown); }
+        .cal-chip.price { background:#e8f8ef; color:#27ae60; }
+
+        .day-empty { text-align:center; color:#d4c4b0; font-size:11px; font-weight:700; padding:20px 5px; opacity:.7; }
+
+        .calendar-legend { display:flex; gap:18px; align-items:center; flex-wrap:wrap; margin-top:18px; padding-top:14px; border-top:1px solid #f0e8de; }
+        .legend-item { display:flex; align-items:center; gap:6px; font-size:12px; font-weight:700; color:#b1a191; }
+        .legend-dot  { width:10px; height:10px; border-radius:50%; }
+    </style>
+</head>
+<body>
+    <header class="main-header">
+        <a href="main.html" class="brand-block">
+            <img src="Logo.svg" alt="Logo" class="header-logo">
+            <div class="brand-text-wrap">
+                <div class="brand-name">SCANLATE<br>PROJECT<br>TRACKER</div>
+                <span class="brand-beta">Beta</span>
+            </div>
+        </a>
+        <nav class="header-nav">
+            <a href="main.html"    class="nav-link"><i class="fas fa-home"></i> ГОЛОВНА</a>
+            <a href="calendar.html" class="nav-link active"><i class="fas fa-calendar-alt"></i> КАЛЕНДАР</a>
+            <a href="archive.html"  class="nav-link"><i class="fas fa-archive"></i> АРХІВ</a>
+            <a href="add.html"      class="nav-link"><i class="fas fa-plus-circle"></i> ДОДАТИ</a>
+        </nav>
+        <div class="user-actions">
+            <a href="profile.html" class="user-pill">
+                <img src="avatar-default.svg" alt="User" class="user-avatar" id="user-avatar">
+                <span id="user-name">...</span>
+            </a>
+            <a href="#" class="logout-link">ВИЙТИ</a>
+        </div>
+        <button class="burger-btn" id="burger-btn"><span></span><span></span><span></span></button>
+        <nav class="mobile-nav" id="mobile-nav">
+            <a href="main.html"    class="nav-link"><i class="fas fa-home"></i> ГОЛОВНА</a>
+            <a href="calendar.html" class="nav-link active"><i class="fas fa-calendar-alt"></i> КАЛЕНДАР</a>
+            <a href="archive.html"  class="nav-link"><i class="fas fa-archive"></i> АРХІВ</a>
+            <a href="add.html"      class="nav-link"><i class="fas fa-plus-circle"></i> ДОДАТИ</a>
+            <div class="mobile-nav-divider"></div>
+            <div class="mobile-user-row">
+                <a href="profile.html" class="mobile-user-pill">
+                    <img src="avatar-default.svg" class="user-avatar" id="user-avatar-mobile" style="width:32px;height:32px;">
+                    <span id="user-name-mobile">...</span>
+                </a>
+                <a href="#" class="logout-link">ВИЙТИ</a>
+            </div>
+        </nav>
+    </header>
+
+    <main class="container">
+        <div class="flat-card">
+            <div class="calendar-header-row">
+                <h3><i class="fas fa-calendar-alt"></i> Календар дедлайнів</h3>
+                <div class="week-nav">
+                    <button class="btn-week" id="btn-week-prev"><i class="fas fa-chevron-left"></i></button>
+                    <span class="week-label" id="week-label">Завантаження...</span>
+                    <button class="btn-week" id="btn-week-next"><i class="fas fa-chevron-right"></i></button>
+                </div>
+            </div>
+
+            <div class="calendar-grid" id="calendar-grid">
+                <div style="grid-column:1/-1;text-align:center;color:#b1a191;padding:40px;font-weight:700;">
+                    <i class="fas fa-spinner fa-spin"></i> Завантаження...
+                </div>
+            </div>
+
+            <div class="calendar-legend">
+                <div class="legend-item"><div class="legend-dot" style="background:var(--main-brown);"></div>Сьогодні</div>
+                <div class="legend-item"><div class="legend-dot" style="background:#e1c9ad;"></div>Дедлайн</div>
+                <div class="legend-item">
+                    <div class="legend-dot" style="background:rgba(72,40,19,0.4);border:2px solid #22c55e;"></div>
+                    Готово
+                </div>
+                <div class="legend-item" style="font-size:11px;color:#ccc;">Наведи на обкладинку, щоб позначити</div>
+            </div>
+        </div>
+    </main>
+
+    <script type="module" src="header.js"></script>
+    <script type="module" src="calendar-script.js"></script>
+    <script src="footer.js"></script>
+</body>
+</html>

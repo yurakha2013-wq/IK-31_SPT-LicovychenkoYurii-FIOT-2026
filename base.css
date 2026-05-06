@@ -1,0 +1,342 @@
+:root {
+    --main-brown: #482813;
+    --light-bg: #e5c8a6;
+    --light-bg-soft: #f1d8bd;
+    --light-bg-soft-2: #e5bd90;
+    --header-grad-1: #d79f74;
+    --header-grad-2: #a8693c;
+    --flat-white: #ffffff;
+    --body-bg: #fcf8f4;
+    --flat-border: 1px solid rgba(72, 40, 19, 0.1);
+}
+
+body {
+    margin: 0;
+    font-family: 'Segoe UI', Roboto, sans-serif;
+    background-color: var(--body-bg);
+    color: var(--main-brown);
+    -webkit-font-smoothing: antialiased;
+}
+
+.main-header {
+    background: linear-gradient(160deg, var(--header-grad-1) 0%, var(--header-grad-2) 100%);
+    border-radius: 30px;
+    margin: 15px auto;
+    width: 96%;
+    max-width: 1400px;
+    height: 112px;
+    padding: 0 35px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-sizing: border-box;
+    position: relative;
+    z-index: 200;
+    overflow: hidden;
+}
+
+.brand-block {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    height: 100%;
+    padding-left: 8px;
+    text-decoration: none;
+    color: inherit;
+    flex-shrink: 0;
+}
+.header-logo {
+    width: 92px;
+    height: 92px;
+    flex-shrink: 0;
+}
+
+.brand-text-wrap {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: stretch;
+    gap: 0;
+    width: max-content;
+    flex-shrink: 0;
+    padding-top: 14px;
+}
+.brand-name {
+    display: block;
+    width: 100%;
+    text-align: left;
+    font-weight: 900;
+    font-size: 18px;
+    text-transform: uppercase;
+    line-height: 1.04;
+    letter-spacing: 0;
+    color: var(--main-brown);
+}
+.brand-beta {
+    position: absolute;
+    top: -2px;
+    left: calc(100% + 10px);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    height: 22px;
+    padding: 0 10px;
+    border-radius: 999px;
+    border: 1px solid rgba(72, 40, 19, 0.16);
+    background: linear-gradient(135deg, rgba(255,255,255,0.95) 0%, rgba(255,240,220,0.88) 100%);
+    box-shadow: 0 8px 20px rgba(72,40,19,0.12);
+    color: var(--main-brown);
+    font-size: 10px;
+    font-weight: 900;
+    letter-spacing: 1.6px;
+    line-height: 1;
+    text-transform: uppercase;
+    white-space: nowrap;
+}
+
+.header-nav {
+    background: rgba(255, 248, 240, 0.34);
+    padding: 7px;
+    border-radius: 22px;
+    display: flex;
+    gap: 6px;
+}
+.nav-link {
+    text-decoration: none;
+    padding: 12px 20px;
+    border-radius: 16px;
+    font-weight: 800;
+    color: var(--main-brown);
+    font-size: 13px;
+    display: flex;
+    align-items: center; gap: 7px;
+    transition: 0.2s;
+    white-space: nowrap;
+}
+.nav-link:hover  { background: rgba(255,255,255,0.2); }
+.nav-link.active { background: var(--main-brown); color: #fff; }
+
+.user-actions { display: flex; align-items: center; gap: 12px; flex-shrink: 0; }
+.user-pill {
+    background: rgba(255,255,255,0.34);
+    padding: 7px 18px 7px 7px;
+    border-radius: 27px;
+    display: flex; align-items: center; gap: 10px;
+    text-decoration: none; color: inherit; font-weight: 800; font-size: 14px;
+    white-space: nowrap;
+    max-width: 200px; overflow: hidden;
+}
+.user-pill span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.user-avatar {
+    width: 40px; height: 40px; border-radius: 50%;
+    border: 2px solid var(--main-brown); background: #fff;
+    flex-shrink: 0; object-fit: cover;
+}
+.logout-link {
+    text-decoration: none; color: var(--main-brown);
+    font-size: 13px; font-weight: 800; opacity: 0.8;
+    cursor: pointer; white-space: nowrap;
+}
+
+.burger-btn {
+    display: none;
+    background: rgba(255,255,255,0.24);
+    border: none; border-radius: 12px;
+    width: 42px; height: 42px;
+    cursor: pointer;
+    flex-direction: column; align-items: center; justify-content: center;
+    gap: 5px; flex-shrink: 0;
+}
+.burger-btn span {
+    display: block; width: 20px; height: 2px;
+    background: var(--main-brown); border-radius: 2px; transition: 0.3s;
+}
+
+.mobile-nav {
+    display: none;
+    position: absolute;
+    top: calc(100% + 8px); left: 0; right: 0;
+    background: linear-gradient(160deg, var(--header-grad-1) 0%, var(--header-grad-2) 100%);
+    border-radius: 20px;
+    padding: 10px;
+    box-shadow: 0 8px 24px rgba(72,40,19,0.15);
+    z-index: 300;
+    flex-direction: column; gap: 3px;
+}
+.mobile-nav.open { display: flex; }
+.mobile-nav .nav-link { padding: 12px 16px; border-radius: 12px; font-size: 13px; }
+.mobile-nav-divider { height: 1px; background: rgba(72,40,19,0.1); margin: 4px 0; }
+.mobile-user-row {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 8px 16px;
+}
+.mobile-user-pill {
+    display: flex; align-items: center; gap: 10px;
+    font-size: 13px; font-weight: 800; color: var(--main-brown);
+    text-decoration: none;
+}
+.mobile-logout {
+    font-size: 12px; font-weight: 800; color: var(--main-brown);
+    opacity: 0.7; text-decoration: none; cursor: pointer;
+    background: none; border: none; font-family: inherit;
+}
+
+.container {
+    padding: 0;
+    width: 96%;
+    max-width: 1400px;
+    margin: 0 auto 30px;
+    box-sizing: border-box;
+}
+.flat-card {
+    background: var(--flat-white);
+    border: var(--flat-border);
+    border-radius: 25px;
+    padding: 25px;
+    margin-bottom: 25px;
+    overflow: hidden;
+}
+h3 {
+    font-size: 20px; font-weight: 900; margin-bottom: 20px;
+    display: flex; align-items: center; gap: 10px;
+}
+
+@media (max-width: 1100px) {
+    .main-header { padding: 0 20px; }
+    .nav-link { padding: 10px 14px; font-size: 12px; gap: 5px; }
+    .nav-link i { display: none; }
+    .brand-block { gap: 14px; padding-left: 0; }
+    .header-logo { width: 76px; height: 76px; }
+    .brand-name { font-size: 16px; }
+    .brand-beta {
+        top: -1px;
+        left: calc(100% + 8px);
+        height: 20px;
+        padding: 0 9px;
+        font-size: 9px;
+        letter-spacing: 1.3px;
+    }
+}
+@media (max-width: 820px) {
+    .main-header {
+        height: auto;
+        min-height: 78px;
+        padding: 12px 14px;
+        border-radius: 20px;
+        margin: 8px auto;
+        overflow: visible;
+    }
+    .header-nav  { display: none; }
+    .user-actions { display: none; }
+    .burger-btn  { display: flex; }
+    .brand-block {
+        gap: 10px;
+        padding-left: 0;
+        align-items: center;
+        min-width: 0;
+        flex: 1;
+    }
+    .header-logo { width: 48px; height: 48px; }
+    .brand-name  {
+        font-size: 11px;
+        line-height: 1;
+    }
+    .brand-text-wrap {
+        min-width: 0;
+        padding-top: 8px;
+    }
+    .brand-beta {
+        top: -2px;
+        left: calc(100% + 4px);
+        height: 16px;
+        padding: 0 7px;
+        font-size: 7px;
+        letter-spacing: 1px;
+    }
+    .mobile-nav {
+        top: calc(100% + 6px);
+        border-radius: 18px;
+        padding: 10px;
+    }
+    .mobile-nav .nav-link {
+        min-height: 44px;
+        box-sizing: border-box;
+        justify-content: flex-start;
+    }
+    .mobile-user-row {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 10px;
+        padding: 10px 12px;
+    }
+    .mobile-user-pill {
+        min-width: 0;
+    }
+    .mobile-user-pill span {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+    .mobile-logout,
+    .mobile-nav .logout-link {
+        align-self: flex-start;
+    }
+    .container   { width: 94%; }
+    .flat-card {
+        border-radius: 22px;
+        padding: 20px;
+        margin-bottom: 18px;
+    }
+    h3 {
+        font-size: 18px;
+        margin-bottom: 16px;
+    }
+}
+
+@media (max-width: 560px) {
+    .main-header {
+        width: calc(100% - 16px);
+        padding: 10px 12px;
+    }
+    .brand-block {
+        gap: 8px;
+    }
+    .header-logo {
+        width: 42px;
+        height: 42px;
+    }
+    .brand-name {
+        font-size: 9px;
+    }
+    .brand-text-wrap {
+        padding-top: 7px;
+    }
+    .brand-beta {
+        top: -1px;
+        left: calc(100% + 2px);
+        height: 14px;
+        padding: 0 6px;
+        font-size: 6px;
+        letter-spacing: 0.8px;
+    }
+    .burger-btn {
+        width: 40px;
+        height: 40px;
+        border-radius: 10px;
+    }
+    .container {
+        width: calc(100% - 16px);
+        margin-bottom: 20px;
+    }
+    .flat-card {
+        border-radius: 20px;
+        padding: 16px;
+    }
+    h3 {
+        font-size: 17px;
+        gap: 8px;
+    }
+
+}

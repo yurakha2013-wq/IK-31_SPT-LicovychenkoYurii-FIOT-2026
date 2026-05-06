@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scanlate Tracker — Головна</title>
+    <link rel="icon" href="Logo.svg" type="image/svg+xml">
+    <script src="theme.js"></script>
+    <link rel="stylesheet" href="base.css">
+    <link rel="stylesheet" href="main-tasks.css">
+    <link rel="stylesheet" href="theme.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <header class="main-header">
+        <a href="main.html" class="brand-block">
+            <img src="Logo.svg" alt="Logo" class="header-logo">
+            <div class="brand-text-wrap">
+                <div class="brand-name">SCANLATE<br>PROJECT<br>TRACKER</div>
+                <span class="brand-beta">Beta</span>
+            </div>
+        </a>
+        <nav class="header-nav">
+            <a href="main.html" class="nav-link active"><i class="fas fa-home"></i> ГОЛОВНА</a>
+            <a href="calendar.html" class="nav-link"><i class="fas fa-calendar-alt"></i> КАЛЕНДАР</a>
+            <a href="archive.html" class="nav-link"><i class="fas fa-archive"></i> АРХІВ</a>
+            <a href="add.html" class="nav-link"><i class="fas fa-plus-circle"></i> ДОДАТИ</a>
+        </nav>
+        <div class="user-actions">
+            <a href="profile.html" class="user-pill">
+                <img src="avatar-default.svg" alt="User" class="user-avatar" id="user-avatar">
+                <span id="user-name">...</span>
+            </a>
+            <a href="#" class="logout-link">ВИЙТИ</a>
+        </div>
+        <button class="burger-btn" id="burger-btn"><span></span><span></span><span></span></button>
+        <nav class="mobile-nav" id="mobile-nav">
+            <a href="main.html" class="nav-link active"><i class="fas fa-home"></i> ГОЛОВНА</a>
+            <a href="calendar.html" class="nav-link"><i class="fas fa-calendar-alt"></i> КАЛЕНДАР</a>
+            <a href="archive.html" class="nav-link"><i class="fas fa-archive"></i> АРХІВ</a>
+            <a href="add.html" class="nav-link"><i class="fas fa-plus-circle"></i> ДОДАТИ</a>
+            <div class="mobile-nav-divider"></div>
+            <div class="mobile-user-row">
+                <a href="profile.html" class="mobile-user-pill">
+                    <img src="avatar-default.svg" class="user-avatar" id="user-avatar-mobile" style="width:32px;height:32px;">
+                    <span id="user-name-mobile">...</span>
+                </a>
+                <a href="#" class="logout-link">ВИЙТИ</a>
+            </div>
+        </nav>
+    </header>
+
+    <main class="container">
+        <section class="flat-card quick-add-card">
+            <h3><i class="fas fa-plus-circle"></i> Швидке додавання задачі</h3>
+            <div class="quick-add-bar">
+                <select id="new-team" class="input-field"><option value="">Команда</option></select>
+                <select id="new-project" class="input-field"><option value="">Проєкт</option></select>
+                <select id="new-task" class="input-field">
+                    <option value="">Задача</option>
+                    <option>Переклад</option><option>Редакт</option><option>Клін</option>
+                    <option>Тайп</option><option>Едіт</option><option>Звуки</option>
+                    <option>Клін зі звуками</option><option>Бета</option>
+                </select>
+                <input type="number" id="new-chapter" class="input-field small-input" placeholder="№ глави" min="0" max="9999" oninput="value=value.replace(/-/g,'');if(value.length>4)value=value.slice(0,4)">
+                <select id="new-entry-type" class="input-field">
+                    <option value="chapter">Глава</option>
+                    <option value="weekly">Щотижневик</option>
+                    <option value="single">Сингл</option>
+                </select>
+                <input type="date" id="new-date" class="input-field date-input" max="2099-12-31">
+                <input type="number" id="new-price" class="input-field price-input" placeholder="Ціна" min="0" max="9999999" oninput="value=value.replace(/-/g,'');if(value.length>7)value=value.slice(0,7)">
+                <button id="add-task-btn" class="btn-create">СТВОРИТИ</button>
+            </div>
+        </section>
+
+        <div class="workspace">
+            <section class="flat-card table-section">
+                <div class="table-section-header">
+                    <h3><i class="fas fa-tasks"></i> Поточні задачі</h3>
+                    <label class="task-search" for="task-search">
+                        <i class="fas fa-search"></i>
+                        <input
+                            type="search"
+                            id="task-search"
+                            class="task-search-input"
+                            placeholder="Пошук"
+                            autocomplete="off"
+                        >
+                    </label>
+                </div>
+                <div class="table-wrapper">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>КОМАНДА</th><th>ПРОЄКТ</th><th>ЗАДАЧА</th>
+                                <th>№ ГЛАВИ</th><th>ДЕДЛАЙН</th><th>ЦІНА</th>
+                                <th>ГОТОВО</th><th>ОПЛАТА</th><th></th>
+                            </tr>
+                        </thead>
+                        <tbody id="task-list">
+                            <tr><td colspan="9" style="text-align:center;color:#b1a191;padding:30px;font-weight:700;">
+                                <i class="fas fa-spinner fa-spin"></i> Завантаження...
+                            </td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <aside class="flat-card stats-aside">
+                <div class="stats-header">
+                    <h3><i class="fas fa-chart-bar"></i> Статистика</h3>
+                </div>
+
+                <div class="filter-group">
+                    <label>ФІЛЬТР КОМАНДИ:</label>
+                    <div class="custom-team-select" id="custom-team-select"></div>
+                </div>
+
+                <div class="stats-cards">
+                    <div class="stat-card stat-earned">
+                        <div class="stat-card-icon">
+                            <i class="fas fa-wallet"></i>
+                        </div>
+                        <div class="stat-card-body">
+                            <div class="stat-card-label">Зароблено</div>
+                            <div class="stat-card-value" id="stat-earned">0₽</div>
+                        </div>
+                    </div>
+
+                    <div class="stat-card stat-paid">
+                        <div class="stat-card-icon">
+                            <i class="fas fa-money-bill-wave"></i>
+                        </div>
+                        <div class="stat-card-body">
+                            <div class="stat-card-label">Виплачено</div>
+                            <div class="stat-card-value" id="stat-paid">0₽</div>
+                        </div>
+                    </div>
+
+                    <div class="stat-card stat-debt">
+                        <div class="stat-card-icon">
+                            <i class="fas fa-piggy-bank"></i>
+                        </div>
+                        <div class="stat-card-body">
+                            <div class="stat-card-label">До виплати</div>
+                            <div class="stat-card-value" id="stat-debt">0₽</div>
+                        </div>
+                    </div>
+                </div>
+            </aside>
+        </div>
+    </main>
+
+    <script type="module" src="header.js"></script>
+    <script type="module" src="script.js"></script>
+    <script src="footer.js"></script>
+</body>
+</html>

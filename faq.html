@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FAQ — Scanlate Tracker</title>
+    <link rel="icon" href="Logo.svg" type="image/svg+xml">
+    <script src="theme.js"></script>
+    <link rel="stylesheet" href="base.css">
+    <link rel="stylesheet" href="theme.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .faq-shell { display:flex; flex-direction:column; gap:20px; }
+        .faq-hero { padding:28px; display:flex; flex-direction:column; gap:14px; }
+        .faq-kicker {
+            display:inline-flex;
+            align-items:center;
+            gap:8px;
+            width:max-content;
+            min-height:30px;
+            padding:0 14px;
+            border-radius:999px;
+            background:rgba(255,255,255,0.8);
+            border:1px solid rgba(72,40,19,0.08);
+            font-size:11px;
+            font-weight:900;
+            letter-spacing:.8px;
+            text-transform:uppercase;
+        }
+        .faq-hero h1 { margin:0; font-size:32px; line-height:1.05; }
+        .faq-hero p { margin:0; max-width:760px; font-size:15px; font-weight:700; color:#9e7b58; line-height:1.55; }
+        .faq-grid { display:grid; grid-template-columns:repeat(2, minmax(0, 1fr)); gap:20px; }
+        .faq-card { padding:24px; display:flex; flex-direction:column; gap:14px; }
+        .faq-card h3 { margin:0; }
+        .faq-list {
+            margin:0;
+            padding-left:20px;
+            display:flex;
+            flex-direction:column;
+            gap:10px;
+            font-size:14px;
+            line-height:1.5;
+            color:var(--main-brown);
+            font-weight:700;
+        }
+        .faq-accordion { display:flex; flex-direction:column; gap:12px; }
+        .faq-item {
+            border:1px solid rgba(72,40,19,0.08);
+            border-radius:18px;
+            background:rgba(255,255,255,0.74);
+            overflow:hidden;
+        }
+        .faq-item summary {
+            list-style:none;
+            cursor:pointer;
+            padding:18px 20px;
+            font-size:16px;
+            font-weight:900;
+            display:flex;
+            align-items:center;
+            justify-content:space-between;
+            gap:16px;
+        }
+        .faq-item summary::-webkit-details-marker { display:none; }
+        .faq-item summary i { flex-shrink:0; transition:transform .2s ease; }
+        .faq-item[open] summary i { transform:rotate(180deg); }
+        .faq-answer { padding:0 20px 18px; border-top:1px solid rgba(72,40,19,0.08); }
+        .faq-answer p { margin:14px 0 0; font-size:14px; line-height:1.6; font-weight:700; color:#9e7b58; }
+        .faq-answer strong { color:var(--main-brown); }
+        @media (max-width: 900px) {
+            .faq-grid { grid-template-columns:1fr; }
+        }
+        @media (max-width: 680px) {
+            .faq-hero { padding:20px; }
+            .faq-hero h1 { font-size:26px; }
+            .faq-hero p { font-size:14px; }
+            .faq-card { padding:20px; }
+            .faq-item summary { padding:16px 18px; font-size:15px; }
+            .faq-answer { padding:0 18px 16px; }
+        }
+        html[data-theme]:not([data-theme="coffee"]) .faq-kicker,
+        html[data-theme]:not([data-theme="coffee"]) .faq-item {
+            background:rgba(255,244,232,0.05);
+            border-color:rgba(246,232,216,0.08);
+        }
+        html[data-theme]:not([data-theme="coffee"]) .faq-hero p,
+        html[data-theme]:not([data-theme="coffee"]) .faq-answer p {
+            color:var(--muted-text);
+        }
+        html[data-theme]:not([data-theme="coffee"]) .faq-answer {
+            border-top-color:rgba(246,232,216,0.08);
+        }
+    </style>
+</head>
+<body>
+    <header class="main-header">
+        <a href="main.html" class="brand-block">
+            <img src="Logo.svg" alt="Logo" class="header-logo">
+            <div class="brand-text-wrap">
+                <div class="brand-name">SCANLATE<br>PROJECT<br>TRACKER</div>
+                <span class="brand-beta">Beta</span>
+            </div>
+        </a>
+        <nav class="header-nav">
+            <a href="main.html" class="nav-link"><i class="fas fa-home"></i> ГОЛОВНА</a>
+            <a href="calendar.html" class="nav-link"><i class="fas fa-calendar-alt"></i> КАЛЕНДАР</a>
+            <a href="archive.html" class="nav-link"><i class="fas fa-archive"></i> АРХІВ</a>
+            <a href="add.html" class="nav-link"><i class="fas fa-plus-circle"></i> ДОДАТИ</a>
+        </nav>
+        <div class="user-actions">
+            <a href="profile.html" class="user-pill">
+                <img src="avatar-default.svg" alt="User" class="user-avatar" id="user-avatar">
+                <span id="user-name">...</span>
+            </a>
+            <a href="#" class="logout-link">ВИЙТИ</a>
+        </div>
+        <button class="burger-btn" id="burger-btn"><span></span><span></span><span></span></button>
+        <nav class="mobile-nav" id="mobile-nav">
+            <a href="main.html" class="nav-link"><i class="fas fa-home"></i> ГОЛОВНА</a>
+            <a href="calendar.html" class="nav-link"><i class="fas fa-calendar-alt"></i> КАЛЕНДАР</a>
+            <a href="archive.html" class="nav-link"><i class="fas fa-archive"></i> АРХІВ</a>
+            <a href="add.html" class="nav-link"><i class="fas fa-plus-circle"></i> ДОДАТИ</a>
+            <div class="mobile-nav-divider"></div>
+            <div class="mobile-user-row">
+                <a href="profile.html" class="mobile-user-pill">
+                    <img src="avatar-default.svg" class="user-avatar" id="user-avatar-mobile" style="width:32px;height:32px;">
+                    <span id="user-name-mobile">...</span>
+                </a>
+                <a href="#" class="logout-link">ВИЙТИ</a>
+            </div>
+        </nav>
+    </header>
+
+    <main class="container">
+        <div class="faq-shell">
+            <section class="flat-card faq-hero">
+                <span class="faq-kicker"><i class="fas fa-circle-question"></i> FAQ</span>
+                <h1>Як користуватися сайтом</h1>
+                <p>Тут зібрані короткі відповіді про основні функції сайту: як додавати команди й проєкти, як швидко створювати задачі, як працювати з календарем, архівом, профілем і темною темою.</p>
+            </section>
+
+            <div class="faq-grid">
+                <section class="flat-card faq-card">
+                    <h3><i class="fas fa-rocket"></i> Швидкий старт</h3>
+                    <ol class="faq-list">
+                        <li>Відкрий сторінку <strong>Додати</strong> і спочатку створи команду, а потім проєкт.</li>
+                        <li>Перейди на <strong>Головну</strong> і через блок швидкого додавання створи першу задачу.</li>
+                        <li>Позначай <strong>Готово</strong> та <strong>Оплата</strong> у таблиці задач.</li>
+                        <li>Коли задача завершена й оплачена, вона автоматично переходить в <strong>Архів</strong>.</li>
+                        <li>У <strong>Профілі</strong> можна змінити аватар, нік і тему сайту.</li>
+                    </ol>
+                </section>
+
+                <section class="flat-card faq-card">
+                    <h3><i class="fas fa-sitemap"></i> Що є на сайті</h3>
+                    <ul class="faq-list">
+                        <li><strong>Головна</strong> — активні задачі, пошук, статистика і швидке додавання.</li>
+                        <li><strong>Календар</strong> — задачі за дедлайнами по днях тижня.</li>
+                        <li><strong>Архів</strong> — завершені задачі, відновлення та експорт.</li>
+                        <li><strong>Додати</strong> — створення й редагування команд і проєктів.</li>
+                        <li><strong>Профіль</strong> — персональні дані та перемикання теми.</li>
+                    </ul>
+                </section>
+            </div>
+
+            <section class="flat-card faq-card">
+                <h3><i class="fas fa-circle-info"></i> Часті запитання</h3>
+                <div class="faq-accordion">
+                    <details class="faq-item" open>
+                        <summary>Як правильно почати роботу? <i class="fas fa-chevron-down"></i></summary>
+                        <div class="faq-answer">
+                            <p>Спочатку створи <strong>команду</strong>, потім <strong>проєкт</strong> на сторінці <strong>Додати</strong>. Після цього на <strong>Головній</strong> у блоці швидкого додавання вибери команду, проєкт, тип задачі, главу, дедлайн і ціну, а потім натисни <strong>Створити</strong>.</p>
+                        </div>
+                    </details>
+
+                    <details class="faq-item">
+                        <summary>Що робить блок швидкого додавання? <i class="fas fa-chevron-down"></i></summary>
+                        <div class="faq-answer">
+                            <p>Цей блок потрібен для миттєвого створення задач без переходів між сторінками. Можна створювати звичайні глави, щотижневики й сингли.</p>
+                        </div>
+                    </details>
+
+                    <details class="faq-item">
+                        <summary>Як працює таблиця на головній? <i class="fas fa-chevron-down"></i></summary>
+                        <div class="faq-answer">
+                            <p>У таблиці показані всі поточні задачі. Чекбокс <strong>Готово</strong> позначає виконання, а <strong>Оплата</strong> — факт оплати. Кнопка олівця дозволяє редагувати запис, а кнопка архіву — вручну відправити задачу в архів.</p>
+                        </div>
+                    </details>
+
+                    <details class="faq-item">
+                        <summary>Коли задача потрапляє в архів? <i class="fas fa-chevron-down"></i></summary>
+                        <div class="faq-answer">
+                            <p>Якщо задача позначена як <strong>готова</strong> і <strong>оплачена</strong>, вона автоматично переноситься в архів.</p>
+                        </div>
+                    </details>
+
+                    <details class="faq-item">
+                        <summary>Для чого потрібен календар? <i class="fas fa-chevron-down"></i></summary>
+                        <div class="faq-answer">
+                            <p>Календар показує дедлайни по днях тижня. На картці можна швидко позначити задачу як виконану, щоб зручніше відстежувати навантаження за строками.</p>
+                        </div>
+                    </details>
+
+                    <details class="faq-item">
+                        <summary>Як працює статистика? <i class="fas fa-chevron-down"></i></summary>
+                        <div class="faq-answer">
+                            <p>Статистика рахує суму заробленого, виплаченого та заборгованості. Можна фільтрувати значення за конкретною командою через випадний список.</p>
+                        </div>
+                    </details>
+
+                    <details class="faq-item">
+                        <summary>Що можна змінювати в профілі? <i class="fas fa-chevron-down"></i></summary>
+                        <div class="faq-answer">
+                            <p>У профілі можна завантажити аватар, змінити нікнейм і ввімкнути або вимкнути темну тему.</p>
+                        </div>
+                    </details>
+
+                    <details class="faq-item">
+                        <summary>Як працює темна тема? <i class="fas fa-chevron-down"></i></summary>
+                        <div class="faq-answer">
+                            <p>Якщо тему ще не вибрано вручну, сайт бере системну тему Windows. Якщо перемкнути тему в профілі, цей вибір стає пріоритетним і зберігається між входами.</p>
+                        </div>
+                    </details>
+
+                    <details class="faq-item">
+                        <summary>Де поставити запитання або залишити пропозицію? <i class="fas fa-chevron-down"></i></summary>
+                        <div class="faq-answer">
+                            <p>Унизу сайту є посилання <strong>Зворотний зв’язок</strong>. Воно відкриває Telegram: <strong>@Siafu8</strong>.</p>
+                        </div>
+                    </details>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <script type="module" src="header.js"></script>
+    <script src="footer.js"></script>
+</body>
+</html>
+

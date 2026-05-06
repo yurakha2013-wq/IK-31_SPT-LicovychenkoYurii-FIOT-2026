@@ -1,0 +1,710 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Профіль — Scanlate Tracker</title>
+    <link rel="icon" href="Logo.svg" type="image/svg+xml">
+    <script src="theme.js"></script>
+    <link rel="stylesheet" href="base.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .profile-layout { display:grid; grid-template-columns:290px minmax(0,1fr); gap:22px; align-items:start; width:100%; }
+        @media(max-width:820px){ .profile-layout { grid-template-columns:1fr; } }
+        .left-col  { display:flex; flex-direction:column; gap:18px; min-width:0; }
+        .right-col { display:flex; flex-direction:column; gap:18px; min-width:0; }
+        .right-col > .flat-card,
+        .right-col > .links-card { width:100%; min-width:0; box-sizing:border-box; }
+
+        .profile-card {
+            position: relative;
+            text-align: center;
+            background:
+                radial-gradient(circle at 50% 0%, rgba(229, 200, 166, 0.52) 0%, rgba(241, 216, 189, 0.3) 28%, rgba(255,255,255,0) 62%),
+                linear-gradient(180deg, #fffaf4 0%, #ffffff 34%, #fffdf9 100%);
+            border: 1px solid rgba(72,40,19,0.08);
+            box-shadow: 0 16px 36px rgba(72,40,19,0.08);
+            overflow: hidden;
+        }
+        .profile-hero {
+            position: relative;
+            margin: -25px -25px 18px;
+            padding: 24px 24px 4px;
+            background:
+                radial-gradient(circle at 50% -10%, rgba(255,255,255,0.75) 0%, rgba(255,255,255,0) 58%),
+                linear-gradient(180deg, rgba(255,248,240,0.58) 0%, rgba(255,255,255,0) 100%);
+        }
+        .profile-pill-row {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            flex-wrap: wrap;
+            margin-bottom: 12px;
+        }
+        .profile-pill {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 28px;
+            padding: 0 12px;
+            border-radius: 999px;
+            background: rgba(255,255,255,0.82);
+            border: 1px solid rgba(72,40,19,0.09);
+            color: var(--main-brown);
+            font-size: 10px;
+            font-weight: 900;
+            letter-spacing: 0.8px;
+            text-transform: uppercase;
+            box-shadow: 0 8px 18px rgba(72,40,19,0.06);
+        }
+        .profile-pill.accent {
+            background: var(--main-brown);
+            color: #fff;
+            border-color: transparent;
+        }
+        .profile-title {
+            justify-content: center;
+            margin-bottom: 18px;
+            position: relative;
+            z-index: 1;
+        }
+        .profile-avatar-shell {
+            position: relative;
+            width: 150px;
+            height: 150px;
+            margin: 0 auto 16px;
+            box-sizing: border-box;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            padding: 9px;
+            background: linear-gradient(180deg, rgba(255,255,255,0.98) 0%, rgba(247,239,229,0.96) 100%);
+            border: 1px solid rgba(72,40,19,0.08);
+            box-shadow: 0 18px 34px rgba(72,40,19,0.12);
+        }
+        .avatar-wrap {
+            position: relative;
+            width: 132px;
+            height: 132px;
+            margin: 0;
+            cursor: pointer;
+            flex-shrink: 0;
+        }
+        .avatar-wrap img {
+            width: 132px;
+            height: 132px;
+            box-sizing: border-box;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid rgba(72,40,19,0.92);
+            display: block;
+            background: #fff;
+            box-shadow: 0 6px 14px rgba(72,40,19,0.08);
+        }
+        .avatar-overlay {
+            position:absolute;
+            inset:0;
+            border-radius:50%;
+            background:linear-gradient(180deg, rgba(72,40,19,0.18) 0%, rgba(72,40,19,0.68) 100%);
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            opacity:0;
+            transition:opacity 0.2s;
+            color:#fff;
+            font-size:20px;
+        }
+        .avatar-wrap:hover .avatar-overlay { opacity:1; }
+        .profile-name-group {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 6px;
+            margin-bottom: 16px;
+            position: relative;
+            z-index: 1;
+        }
+        .profile-display-name  { font-size:20px; font-weight:900; color:var(--main-brown); margin:0; }
+        .profile-display-email {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 28px;
+            padding: 0 14px;
+            border-radius: 999px;
+            background: linear-gradient(180deg, #f8efe3 0%, #f3e6d7 100%);
+            border: 1px solid rgba(72,40,19,0.08);
+            color: #9e7b58;
+            font-size: 11px;
+            font-weight: 900;
+            letter-spacing: 0.2px;
+            max-width: 100%;
+            box-sizing: border-box;
+        }
+        .profile-display-email:empty {
+            display: none;
+        }
+        .profile-divider {
+            width: 100%;
+            height: 1px;
+            background: linear-gradient(90deg, rgba(72,40,19,0) 0%, rgba(72,40,19,0.12) 20%, rgba(72,40,19,0.12) 80%, rgba(72,40,19,0) 100%);
+            margin: 10px 0 14px;
+        }
+        .profile-field { display:flex; flex-direction:column; gap:7px; text-align:left; margin-bottom:14px; }
+        .profile-label { font-size:10px; font-weight:800; color:#b1a191; text-transform:uppercase; letter-spacing:0.7px; padding-left:2px; }
+        .profile-input { height:48px; border:1.5px solid rgba(72,40,19,0.12); border-radius:16px; padding:0 15px; background:#fdfaf7; color:var(--main-brown); font-size:15px; font-weight:700; font-family:inherit; outline:none; transition:border-color 0.2s, box-shadow 0.2s, background 0.2s; width:100%; box-sizing:border-box; }
+        .profile-input:focus { border-color:var(--main-brown); box-shadow:0 0 0 3px rgba(72,40,19,0.07); }
+        .profile-theme-card {
+            display:flex;
+            align-items:center;
+            justify-content:space-between;
+            gap:12px;
+            margin:0 auto 10px;
+            padding:10px 12px;
+            border-radius:16px;
+            border:1px solid rgba(72,40,19,0.08);
+            background:rgba(255,255,255,0.72);
+            box-shadow:none;
+            text-align:left;
+            position:relative;
+            z-index:1;
+        }
+        .profile-theme-copy {
+            display:flex;
+            flex-direction:column;
+            align-items:flex-start;
+            gap:4px;
+            min-width:0;
+        }
+        .profile-theme-copy .profile-label {
+            padding-left:0;
+            font-size:10px;
+            letter-spacing:0.9px;
+            color:#9d7a58;
+        }
+        .profile-theme-note {
+            font-size:12px;
+            font-weight:700;
+            color:#9d7a58;
+            line-height:1.2;
+        }
+        .theme-palette {
+            display:grid;
+            grid-template-columns:repeat(4, 1fr);
+            gap:8px;
+            width:184px;
+            flex-shrink:0;
+        }
+        .theme-option {
+            position:relative;
+            width:40px;
+            height:40px;
+            padding:0;
+            border-radius:14px;
+            cursor:pointer;
+            border:1px solid rgba(72,40,19,0.08);
+            background:linear-gradient(180deg, rgba(255,255,255,0.92) 0%, rgba(247,239,229,0.9) 100%);
+            box-shadow:0 8px 16px rgba(72,40,19,0.10);
+            transition:transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease;
+        }
+        .theme-option::before {
+            content:"";
+            position:absolute;
+            inset:6px;
+            border-radius:10px;
+            background:
+                radial-gradient(circle at 30% 30%, var(--swatch-1) 0 34%, transparent 36%),
+                radial-gradient(circle at 70% 30%, var(--swatch-2) 0 34%, transparent 36%),
+                radial-gradient(circle at 50% 72%, var(--swatch-3) 0 38%, transparent 40%),
+                linear-gradient(180deg, rgba(255,255,255,0.32) 0%, rgba(255,255,255,0) 100%);
+        }
+        .theme-option:hover {
+            transform:translateY(-1px);
+            box-shadow:0 10px 18px rgba(72,40,19,0.14);
+        }
+        .theme-option.active {
+            border-color:var(--main-brown);
+            box-shadow:0 0 0 3px rgba(72,40,19,0.12), 0 10px 18px rgba(72,40,19,0.16);
+        }
+        .theme-option:focus-visible {
+            outline:none;
+            border-color:var(--main-brown);
+            box-shadow:0 0 0 3px rgba(72,40,19,0.12), 0 10px 18px rgba(72,40,19,0.16);
+        }
+        .btn-profile-save { width:100%; height:50px; background:linear-gradient(180deg, #6d3f1d 0%, #582f15 100%); color:#fff; border:none; border-radius:16px; font-weight:900; font-size:15px; cursor:pointer; font-family:inherit; display:flex; align-items:center; justify-content:center; gap:8px; transition:transform 0.15s, opacity 0.2s, box-shadow 0.2s; box-shadow: 0 12px 24px rgba(72,40,19,0.18); }
+        .btn-profile-save:hover { opacity:0.88; }
+        .btn-profile-save:disabled { opacity:0.6; cursor:not-allowed; }
+        .btn-profile-save:not(:disabled):hover { transform: translateY(-1px); }
+
+        .links-card {
+            background: linear-gradient(160deg, #f1d8bd 0%, #e5bd90 100%);
+            border: 1px solid rgba(72,40,19,0.08);
+            border-radius: 28px;
+            padding: 14px 16px;
+            box-shadow: 0 12px 26px rgba(72,40,19,0.10);
+            box-sizing: border-box;
+            width: 100%;
+            min-width: 0;
+        }
+        .links-slider-wrap {
+            padding: 0;
+            min-width: 0;
+        }
+        .site-links-track {
+            display: flex;
+            gap: 10px;
+            overflow-x: auto;
+            scroll-behavior: smooth;
+            scrollbar-width: none;
+            justify-content: flex-start;
+            min-width: 0;
+        }
+        .site-links-track::-webkit-scrollbar { display:none; }
+        .site-link-icon-btn {
+            width: 66px;
+            height: 66px;
+            flex: 0 0 66px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 18px;
+            background: rgba(255,255,255,0.28);
+            border: 1px solid rgba(255,255,255,0.34);
+            text-decoration: none;
+            box-shadow: inset 0 1px 0 rgba(255,255,255,0.08);
+            transition: transform 0.15s, background 0.15s, border-color 0.15s;
+        }
+        .site-link-icon-btn:hover {
+            transform: translateY(-2px);
+            background: rgba(255,255,255,0.36);
+            border-color: rgba(255,255,255,0.42);
+        }
+        .site-favicon {
+            width: 34px;
+            height: 34px;
+            border-radius: 10px;
+            object-fit: contain;
+            display: block;
+            filter: drop-shadow(0 4px 12px rgba(0,0,0,0.12));
+        }
+        .site-favicon-fallback {
+            width: 34px;
+            height: 34px;
+            border-radius: 10px;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            font-size: 13px;
+            font-weight: 900;
+            color: #fff;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.12);
+        }
+        .mini-list  { display:grid; grid-template-columns:repeat(auto-fit,minmax(170px,1fr)); gap:12px; }
+        .mini-item  {
+            position: relative;
+            min-height: 74px;
+            padding: 10px;
+            border-radius: 18px;
+            border: 1px solid rgba(72,40,19,0.08);
+            background: linear-gradient(160deg, #fffdf9 0%, #f7efe5 100%);
+            box-shadow: 0 8px 24px rgba(72,40,19,0.08);
+            overflow: hidden;
+            transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s;
+        }
+        .mini-item:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 14px 30px rgba(72,40,19,0.14);
+            border-color: color-mix(in srgb, var(--team-accent, #7c4f2a) 35%, white);
+        }
+        .mini-item::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background-image: var(--team-cover);
+            background-size: 140%;
+            background-position: center;
+            opacity: 0.7;
+            pointer-events: none;
+        }
+        .mini-item::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background:
+                linear-gradient(160deg, rgba(255,253,249,0.24) 0%, rgba(247,239,229,0.34) 100%),
+                radial-gradient(circle at top right, color-mix(in srgb, var(--team-accent, #7c4f2a) 24%, white) 0%, rgba(255,255,255,0) 42%);
+            pointer-events: none;
+        }
+        .mini-card-top {
+            display: flex;
+            align-items: center;
+            width: 100%;
+            height: 100%;
+        }
+        .mini-logo,
+        .mini-logo-ph {
+            width: 42px;
+            height: 42px;
+            border-radius: 14px;
+            position: absolute;
+            top: 50%;
+            left: 10px;
+            transform: translateY(-50%);
+            z-index: 2;
+            flex-shrink: 0;
+            border: 2px solid rgba(255,255,255,0.7);
+            box-shadow: 0 6px 14px rgba(72,40,19,0.12);
+        }
+        .mini-logo  { object-fit: cover; background: #ede5da; }
+        .mini-logo-ph {
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            background: color-mix(in srgb, var(--team-accent, #7c4f2a) 78%, white);
+            font-size: 18px;
+            font-weight: 900;
+            color: #fff;
+        }
+        .mini-badge {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            display: block;
+            padding: 0;
+            font-weight: 900;
+            font-size: 17px;
+            line-height: 1.15;
+            color: #fffdf9;
+            text-align: center;
+            text-shadow: 0 2px 10px rgba(72,40,19,0.55);
+            max-width: calc(100% - 84px);
+            white-space: normal;
+            word-break: break-word;
+            z-index: 2;
+        }
+        .mini-empty {
+            color:#b1a191;
+            font-size:13px;
+            font-weight:700;
+            padding: 14px 0;
+            grid-column: 1 / -1;
+        }
+        .section-add-link { display:flex; align-items:center; gap:7px; font-size:12px; font-weight:800; color:var(--main-brown); text-decoration:none; opacity:0.6; margin-top:10px; }
+        .section-add-link:hover { opacity:1; }
+
+        .projects-slider-wrap {
+            position: relative;
+            padding: 0 42px;
+            min-width: 0;
+        }
+        .projects-slider {
+            display: flex;
+            gap: 12px;
+            overflow-x: auto;
+            scroll-behavior: smooth;
+            scrollbar-width: none;
+            padding-bottom: 4px;
+            cursor: grab;
+            user-select: none;
+            overscroll-behavior-x: contain;
+            min-width: 0;
+        }
+        .projects-slider::-webkit-scrollbar { display:none; }
+        .projects-slider.dragging {
+            cursor: grabbing;
+            scroll-behavior: auto;
+        }
+
+        .proj-slide {
+            flex-shrink: 0;
+            width: 130px;
+            border-radius: 14px;
+            overflow: hidden;
+            position: relative;
+            cursor: default;
+            box-shadow: 0 2px 8px rgba(72,40,19,0.1);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .proj-slide:hover { transform:translateY(-3px); box-shadow:0 6px 16px rgba(72,40,19,0.18); }
+
+        .proj-slide-cover {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+            display: block;
+            background: var(--light-bg);
+        }
+        .proj-slide-cover-ph {
+            width: 100%;
+            height: 180px;
+            background: linear-gradient(135deg, #e1c9ad, #c9aa8a);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 36px;
+        }
+
+        .proj-slide-info {
+            position: absolute;
+            bottom: 0; left: 0; right: 0;
+            background: linear-gradient(to top, rgba(40,18,5,0.88) 0%, rgba(40,18,5,0) 100%);
+            padding: 28px 9px 10px;
+            color: #fff;
+        }
+        .proj-slide-title {
+            font-size: 12px;
+            font-weight: 900;
+            line-height: 1.2;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .proj-slide-team {
+            font-size: 10px;
+            font-weight: 700;
+            opacity: 0.75;
+            margin-top: 2px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .slider-arrow {
+            position: absolute;
+            top: 50%; transform: translateY(-50%);
+            width: 30px; height: 30px;
+            background: var(--main-brown);
+            color: #fff;
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 12px;
+            display: flex; align-items: center; justify-content: center;
+            z-index: 10;
+            box-shadow: 0 2px 8px rgba(72,40,19,0.3);
+            transition: opacity 0.2s;
+        }
+        .slider-arrow:hover { opacity:0.85; }
+        .slider-arrow.left  { left: 4px; }
+        .slider-arrow.right { right: 4px; }
+        .slider-arrow:disabled { opacity:0.25; cursor:default; }
+
+        @media(max-width:820px){
+            .projects-slider-wrap { padding: 0 34px; }
+            .slider-arrow.left  { left: 0; }
+            .slider-arrow.right { right: 0; }
+        }
+        @media(max-width:680px){
+            .profile-layout{gap:16px;}
+            .profile-hero{margin:-20px -20px 16px;padding:20px 20px 0;}
+            .profile-avatar-shell{width:132px;height:132px;}
+            .avatar-wrap,.avatar-wrap img{width:114px;height:114px;}
+            .profile-display-name{font-size:18px;}
+            .links-card{padding:12px;}
+            .site-links-track{gap:8px;}
+            .site-link-icon-btn{width:58px;height:58px;flex-basis:58px;border-radius:16px;}
+            .site-favicon,.site-favicon-fallback{width:30px;height:30px;}
+            .mini-list{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;}
+            .mini-item{min-height:120px;padding:8px;border-radius:16px;}
+            .mini-logo,.mini-logo-ph{width:34px;height:34px;border-radius:12px;left:8px;}
+            .mini-logo-ph{font-size:15px;}
+            .mini-badge{font-size:13px;max-width:calc(100% - 34px);left:50%;padding:0 8px;}
+            .projects-slider-wrap{padding:0 28px;}
+            .proj-slide{width:118px;}
+            .proj-slide-cover,.proj-slide-cover-ph{height:164px;}
+            .slider-arrow{width:28px;height:28px;}
+            .section-add-link{font-size:11px;}
+        }
+        @media(max-width:480px){
+            .profile-hero{margin:-16px -16px 14px;padding:16px 16px 0;}
+            .profile-avatar-shell{width:122px;height:122px;padding:7px;}
+            .avatar-wrap,.avatar-wrap img{width:106px;height:106px;}
+            .profile-pill{min-height:26px;padding:0 10px;font-size:9px;}
+            .profile-input{height:46px;font-size:14px;}
+            .profile-theme-card{padding:10px 12px;border-radius:15px;}
+            .theme-palette{width:100%;grid-template-columns:repeat(4,minmax(0,1fr));}
+            .theme-option{width:100%;}
+            .btn-profile-save{height:48px;font-size:14px;}
+            .projects-slider-wrap{padding:0 24px;}
+            .slider-arrow{width:26px;height:26px;font-size:11px;}
+            .mini-item{min-height:104px;}
+            .mini-badge{font-size:12px;}
+        }
+
+    </style>
+    <link rel="stylesheet" href="theme.css">
+</head>
+<body>
+    <header class="main-header">
+        <a href="main.html" class="brand-block">
+            <img src="Logo.svg" alt="Logo" class="header-logo">
+            <div class="brand-text-wrap">
+                <div class="brand-name">SCANLATE<br>PROJECT<br>TRACKER</div>
+                <span class="brand-beta">Beta</span>
+            </div>
+        </a>
+        <nav class="header-nav">
+            <a href="main.html"    class="nav-link"><i class="fas fa-home"></i> ГОЛОВНА</a>
+            <a href="calendar.html" class="nav-link"><i class="fas fa-calendar-alt"></i> КАЛЕНДАР</a>
+            <a href="archive.html"  class="nav-link"><i class="fas fa-archive"></i> АРХІВ</a>
+            <a href="add.html"      class="nav-link"><i class="fas fa-plus-circle"></i> ДОДАТИ</a>
+        </nav>
+        <div class="user-actions">
+            <a href="profile.html" class="user-pill">
+                <img src="avatar-default.svg" alt="User" class="user-avatar" id="user-avatar">
+                <span id="user-name">...</span>
+            </a>
+            <a href="#" class="logout-link">ВИЙТИ</a>
+        </div>
+        <button class="burger-btn" id="burger-btn"><span></span><span></span><span></span></button>
+        <nav class="mobile-nav" id="mobile-nav">
+            <a href="main.html"    class="nav-link"><i class="fas fa-home"></i> ГОЛОВНА</a>
+            <a href="calendar.html" class="nav-link"><i class="fas fa-calendar-alt"></i> КАЛЕНДАР</a>
+            <a href="archive.html"  class="nav-link"><i class="fas fa-archive"></i> АРХІВ</a>
+            <a href="add.html"      class="nav-link"><i class="fas fa-plus-circle"></i> ДОДАТИ</a>
+            <div class="mobile-nav-divider"></div>
+            <div class="mobile-user-row">
+                <a href="profile.html" class="mobile-user-pill">
+                    <img src="avatar-default.svg" class="user-avatar" id="user-avatar-mobile" style="width:32px;height:32px;">
+                    <span id="user-name-mobile">...</span>
+                </a>
+                <a href="#" class="logout-link">ВИЙТИ</a>
+            </div>
+        </nav>
+    </header>
+
+    <main class="container">
+        <div class="profile-layout">
+
+            <div class="left-col">
+
+                <div class="flat-card profile-card">
+                    <div class="profile-hero">
+                        <div class="profile-pill-row">
+                            <span class="profile-pill">Особистий кабінет</span>
+                            <span class="profile-pill accent">Beta</span>
+                        </div>
+                        <h3 class="profile-title"><i class="fas fa-user-circle"></i> Профіль</h3>
+                        <div class="profile-avatar-shell">
+                            <div class="avatar-wrap" id="avatar-wrap">
+                                <img src="avatar-default.svg" alt="Аватар" id="profile-avatar-img">
+                                <div class="avatar-overlay"><i class="fas fa-camera"></i></div>
+                                <input type="file" id="avatar-file-input" accept="image/*" hidden>
+                            </div>
+                        </div>
+                        <div class="profile-name-group">
+                            <div class="profile-display-name"  id="profile-display-name">...</div>
+                            <div class="profile-display-email" id="profile-display-email"></div>
+                        </div>
+                        <div class="profile-theme-card">
+                            <div class="profile-theme-copy">
+                                <span class="profile-label">Тема сайту</span>
+                                <span class="profile-theme-note" id="profile-theme-note">Кавова тема</span>
+                            </div>
+                            <div class="theme-palette" id="profile-theme-picker" role="group" aria-label="Вибір теми сайту">
+                                <button type="button" class="theme-option active" data-theme-option data-theme-value="coffee" aria-label="Кавова тема" style="--swatch-1:#a8693c;--swatch-2:#e5c8a6;--swatch-3:#fff3e2;"></button>
+                                <button type="button" class="theme-option" data-theme-option data-theme-value="dark" aria-label="Темна тема" style="--swatch-1:#1a1a1d;--swatch-2:#950740;--swatch-3:#c3073f;"></button>
+                                <button type="button" class="theme-option" data-theme-option data-theme-value="ocean" aria-label="Футуристична тема" style="--swatch-1:#2c3531;--swatch-2:#116466;--swatch-3:#ffcb9a;"></button>
+                                <button type="button" class="theme-option" data-theme-option data-theme-value="forest" aria-label="Енергійна тема" style="--swatch-1:#5680e9;--swatch-2:#84ceeb;--swatch-3:#8860d0;"></button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="profile-divider"></div>
+                    <div class="profile-field">
+                        <label class="profile-label">Нікнейм</label>
+                        <input type="text" class="profile-input" id="profile-nickname" placeholder="Введіть нікнейм" maxlength="30">
+                    </div>
+                    <button class="btn-profile-save" onclick="saveProfile()">
+                        <i class="fas fa-check"></i> Зберегти профіль
+
+                    </button>
+                </div>
+
+            </div>
+
+            <div class="right-col">
+                <div class="links-card">
+                    <div class="links-slider-wrap">
+                        <div class="site-links-track" id="site-links-track">
+                            <a href="https://mangalib.me" target="_blank" rel="noopener" class="site-link-icon-btn" title="MangaLib">
+                                <img class="site-favicon" src="https://www.google.com/s2/favicons?sz=128&domain_url=https://mangalib.me" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'" alt="MangaLib">
+                                <div class="site-favicon-fallback" style="background:#4f6ef7;">ML</div>
+                            </a>
+                            <a href="https://hentailib.me" target="_blank" rel="noopener" class="site-link-icon-btn" title="HentaiLib">
+                                <img class="site-favicon" src="https://www.google.com/s2/favicons?sz=128&domain_url=https://hentailib.me" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'" alt="HentaiLib">
+                                <div class="site-favicon-fallback" style="background:#2f2b41;">HL</div>
+                            </a>
+                            <a href="https://slashlib.me" target="_blank" rel="noopener" class="site-link-icon-btn" title="SlashLib">
+                                <img class="site-favicon" src="https://www.google.com/s2/favicons?sz=128&domain_url=https://slashlib.me" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'" alt="SlashLib">
+                                <div class="site-favicon-fallback" style="background:#1c1f2f;">SL</div>
+                            </a>
+                            <a href="https://remanga.org" target="_blank" rel="noopener" class="site-link-icon-btn" title="Remanga">
+                                <img class="site-favicon" src="https://www.google.com/s2/favicons?sz=128&domain_url=https://remanga.org" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'" alt="Remanga">
+                                <div class="site-favicon-fallback" style="background:#ff7a2f;">RM</div>
+                            </a>
+                            <a href="https://senkuro.com" target="_blank" rel="noopener" class="site-link-icon-btn" title="Senkuro">
+                                <img class="site-favicon" src="https://www.google.com/s2/favicons?sz=128&domain_url=https://senkuro.com" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'" alt="Senkuro">
+                                <div class="site-favicon-fallback" style="background:#22a06b;">SK</div>
+                            </a>
+                            <a href="https://mangahub.ru" target="_blank" rel="noopener" class="site-link-icon-btn" title="MangaHub">
+                                <img class="site-favicon" src="https://www.google.com/s2/favicons?sz=128&domain_url=https://mangahub.ru" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'" alt="MangaHub">
+                                <div class="site-favicon-fallback" style="background:#e48b21;">MH</div>
+                            </a>
+                            <a href="https://3.readmanga.ru/" target="_blank" rel="noopener" class="site-link-icon-btn" title="ReadManga">
+                                <img class="site-favicon" src="https://www.google.com/s2/favicons?sz=128&domain_url=https://3.readmanga.ru/" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'" alt="ReadManga">
+                                <div class="site-favicon-fallback" style="background:#8d4ee8;">RD</div>
+                            </a>
+                            <a href="https://1.mintmanga.com/" target="_blank" rel="noopener" class="site-link-icon-btn" title="MintManga">
+                                <img class="site-favicon" src="https://www.google.com/s2/favicons?sz=128&domain_url=https://1.mintmanga.com/" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'" alt="MintManga">
+                                <div class="site-favicon-fallback" style="background:#3db39e;">MM</div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flat-card">
+                    <h3><i class="fas fa-book-open"></i> Мої проєкти</h3>
+                    <div class="projects-slider-wrap">
+                        <button class="slider-arrow left" id="slider-prev" onclick="slideProjects(-1)">
+                            <i class="fas fa-chevron-left"></i>
+                        </button>
+                        <div class="projects-slider" id="projects-slider">
+                            <div style="color:#b1a191;font-size:13px;font-weight:700;padding:10px 0;">
+                                <i class="fas fa-spinner fa-spin"></i>
+                            </div>
+                        </div>
+                        <button class="slider-arrow right" id="slider-next" onclick="slideProjects(1)">
+                            <i class="fas fa-chevron-right"></i>
+                        </button>
+                    </div>
+                    <a href="add.html" class="section-add-link" style="margin-top:14px;"><i class="fas fa-plus"></i> Додати проєкт</a>
+                </div>
+
+                <div class="flat-card">
+                    <h3><i class="fas fa-users"></i> Мої команди</h3>
+                    <div class="mini-list" id="profile-teams-list">
+                        <div class="mini-empty"><i class="fas fa-spinner fa-spin"></i></div>
+                    </div>
+                    <a href="add.html" class="section-add-link"><i class="fas fa-plus"></i> Додати команду</a>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <script>
+    window.slideProjects = function(dir) {
+        const slider = document.getElementById("projects-slider");
+        if (!slider) return;
+        slider.scrollBy({ left: dir * 150, behavior: "smooth" });
+    };
+    </script>
+    <script type="module" src="header.js"></script>
+    <script type="module" src="profile.js"></script>
+    <script src="footer.js"></script>
+</body>
+</html>
+
+

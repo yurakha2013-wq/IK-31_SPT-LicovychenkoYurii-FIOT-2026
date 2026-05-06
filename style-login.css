@@ -1,0 +1,193 @@
+:root {
+    --main-brown: #482813;
+    --light-bg: #e1c9ad;
+    --accent: #b88b62;
+}
+
+body {
+    font-family: 'Segoe UI', sans-serif;
+    background-color: #f0ebe4;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    margin: 0;
+}
+
+.login-card {
+    background: var(--light-bg);
+    padding: 38px 36px 32px;
+    border-radius: 28px;
+    box-shadow: 0 12px 40px rgba(72,40,19,0.14);
+    width: 100%;
+    max-width: 400px;
+    text-align: center;
+    box-sizing: border-box;
+}
+
+.brand-header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    margin-bottom: 32px;
+    position: relative;
+}
+
+.main-logo { height: 100px; width: auto; flex-shrink: 0; }
+
+.brand-text-login {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    justify-content: center;
+    gap: 0;
+    padding-top: 22px;
+}
+
+.brand-text-login .brand-name {
+    display: block;
+    width: 100%;
+    text-align: center;
+    color: var(--main-brown);
+    font-weight: 900;
+    line-height: 1.05;
+    font-size: 22px;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+}
+
+.brand-text-login .brand-beta {
+    position: absolute;
+    top: 0;
+    left: 104px;
+    display: inline-block;
+    font-size: 9px;
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: #fff;
+    background: var(--main-brown);
+    padding: 2px 8px;
+    border-radius: 6px;
+    opacity: 0.7;
+    white-space: nowrap;
+}
+
+.form-title {
+    color: var(--main-brown);
+    font-size: 26px;
+    font-weight: 900;
+    margin-bottom: 22px;
+}
+
+.input-group {
+    margin-bottom: 12px;
+    position: relative;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="password"] {
+    width: 100%;
+    padding: 14px 16px;
+    background: #ffffff;
+    border: none;
+    border-radius: 12px;
+    box-sizing: border-box;
+    font-size: 15px;
+    font-family: inherit;
+    color: var(--main-brown);
+    outline: none;
+    transition: box-shadow 0.2s;
+}
+input:focus { box-shadow: 0 0 0 3px rgba(72,40,19,0.15); }
+
+.toggle-password {
+    position: absolute;
+    right: 14px; top: 50%;
+    transform: translateY(-50%);
+    width: 22px; cursor: pointer; opacity: 0.5;
+}
+
+.btn-submit {
+    width: 100%; padding: 14px;
+    background-color: var(--main-brown);
+    color: white; border: none;
+    border-radius: 12px; font-size: 17px;
+    font-weight: 900; cursor: pointer;
+    margin-top: 8px; margin-bottom: 14px;
+    font-family: inherit;
+    transition: opacity 0.2s;
+}
+.btn-submit:hover { opacity: 0.88; }
+
+.btn-google {
+    width: 100%; padding: 12px;
+    background: white; border: none;
+    border-radius: 12px;
+    display: flex; justify-content: center; align-items: center;
+    gap: 10px; cursor: pointer;
+    font-weight: 600; font-size: 15px;
+    font-family: inherit;
+    transition: opacity 0.2s;
+}
+.btn-google:hover { opacity: 0.85; }
+.btn-google img { width: 20px; }
+
+.footer-links { margin-top: 20px; }
+.link-secondary {
+    display: block; color: var(--main-brown);
+    text-decoration: none; font-weight: 700;
+    font-size: 14px; opacity: 0.8;
+}
+.link-secondary:hover { opacity: 1; }
+
+@media (max-width: 560px) {
+    body {
+        align-items: flex-start;
+        padding: 14px 10px;
+        box-sizing: border-box;
+    }
+
+    .login-card {
+        padding: 26px 18px 22px;
+        border-radius: 22px;
+        max-width: none;
+    }
+
+    .brand-header {
+        gap: 12px;
+        margin-bottom: 24px;
+    }
+
+    .main-logo {
+        height: 72px;
+    }
+
+    .brand-text-login {
+        padding-top: 16px;
+    }
+
+    .brand-text-login .brand-name {
+        font-size: 16px;
+    }
+
+    .brand-text-login .brand-beta {
+        left: calc(100% - 6px);
+        font-size: 7px;
+        letter-spacing: 1px;
+        padding: 2px 6px;
+    }
+
+    .form-title {
+        font-size: 22px;
+        margin-bottom: 18px;
+    }
+
+    .btn-submit,
+    .btn-google {
+        min-height: 46px;
+    }
+}

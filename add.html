@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scanlate Tracker — Додати</title>
+    <link rel="icon" href="Logo.svg" type="image/svg+xml">
+    <script src="theme.js"></script>
+    <link rel="stylesheet" href="base.css">
+    <link rel="stylesheet" href="add-page.css">
+    <link rel="stylesheet" href="theme.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+</head>
+<body>
+    <header class="main-header">
+        <a href="main.html" class="brand-block">
+            <img src="Logo.svg" alt="Logo" class="header-logo">
+            <div class="brand-text-wrap">
+                <div class="brand-name">SCANLATE<br>PROJECT<br>TRACKER</div>
+                <span class="brand-beta">Beta</span>
+            </div>
+        </a>
+        <nav class="header-nav">
+            <a href="main.html" class="nav-link"><i class="fas fa-home"></i> ГОЛОВНА</a>
+            <a href="calendar.html" class="nav-link"><i class="fas fa-calendar-alt"></i> КАЛЕНДАР</a>
+            <a href="archive.html" class="nav-link"><i class="fas fa-archive"></i> АРХІВ</a>
+            <a href="add.html" class="nav-link active"><i class="fas fa-plus-circle"></i> ДОДАТИ</a>
+        </nav>
+        <div class="user-actions">
+            <a href="profile.html" class="user-pill">
+                <img src="avatar-default.svg" alt="User" class="user-avatar" id="user-avatar">
+                <span id="user-name">...</span>
+            </a>
+            <a href="#" class="logout-link">ВИЙТИ</a>
+        </div>
+        <button class="burger-btn" id="burger-btn"><span></span><span></span><span></span></button>
+        <nav class="mobile-nav" id="mobile-nav">
+            <a href="main.html" class="nav-link"><i class="fas fa-home"></i> ГОЛОВНА</a>
+            <a href="calendar.html" class="nav-link"><i class="fas fa-calendar-alt"></i> КАЛЕНДАР</a>
+            <a href="archive.html" class="nav-link"><i class="fas fa-archive"></i> АРХІВ</a>
+            <a href="add.html" class="nav-link active"><i class="fas fa-plus-circle"></i> ДОДАТИ</a>
+            <div class="mobile-nav-divider"></div>
+            <div class="mobile-user-row">
+                <a href="profile.html" class="mobile-user-pill">
+                    <img src="avatar-default.svg" class="user-avatar" id="user-avatar-mobile" style="width:32px;height:32px;">
+                    <span id="user-name-mobile">...</span>
+                </a>
+                <a href="#" class="logout-link">ВИЙТИ</a>
+            </div>
+        </nav>
+    </header>
+    <main class="container">
+        <div class="add-grid">
+            <div class="flat-card add-card">
+                <h3><i class="fas fa-users"></i> Нова команда</h3>
+                <div class="drop-zone circle-zone" id="drop-zone-team">
+                    <input type="file" id="file-team" accept="image/*" hidden>
+                    <img src="" class="preview-img" id="preview-team" alt="">
+                    <div class="drop-zone-content"><i class="fas fa-camera"></i><span>Логотип<br><small style="opacity:0.7;">макс. 2 МБ</small></span></div>
+                </div>
+                <div class="add-form">
+                    <div class="field-wrap">
+                        <label class="field-label">Назва команди</label>
+                        <input type="text" class="add-input" id="team-name" placeholder="Наприклад: MangaTeam" maxlength="40">
+                    </div>
+                    <button class="btn-add-save" onclick="saveTeam()"><i class="fas fa-check"></i> Зберегти команду</button>
+                </div>
+                <div class="existing-list" id="teams-list"></div>
+            </div>
+            <div class="flat-card add-card">
+                <h3><i class="fas fa-book-open"></i> Новий проєкт</h3>
+                <div class="drop-zone poster-zone" id="drop-zone-project">
+                    <input type="file" id="file-project" accept="image/*" hidden>
+                    <img src="" class="preview-img" id="preview-project" alt="">
+                    <div class="drop-zone-content"><i class="fas fa-image"></i><span>Обкладинка<br><small style="opacity:0.7;">макс. 8 МБ</small></span></div>
+                </div>
+                <div class="add-form">
+                    <div class="field-wrap">
+                        <label class="field-label">Команда</label>
+                        <select class="add-input add-select" id="select-team-for-project"><option value="" disabled selected>Завантаження...</option></select>
+                    </div>
+                    <div class="field-wrap">
+                        <label class="field-label">Назва проєкту</label>
+                        <input type="text" class="add-input" id="project-title" placeholder="Наприклад: One Piece" maxlength="80">
+                    </div>
+                    <button class="btn-add-save" onclick="saveProject()"><i class="fas fa-check"></i> Зберегти проєкт</button>
+                </div>
+                <div class="existing-list" id="projects-list"></div>
+            </div>
+        </div>
+    </main>
+    <script type="module" src="header.js"></script>
+    <script type="module" src="add-script.js"></script>
+    <script src="footer.js"></script>
+</body>
+</html>
