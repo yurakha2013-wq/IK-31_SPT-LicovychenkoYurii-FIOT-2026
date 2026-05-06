@@ -1,16 +1,16 @@
-/**
+﻿/**
  * ARCHIVE-SCRIPT.JS
  * Виправлення: чекбокс "вибрати все" у thead не потрапляє у вибірку рядків
  */
 
-import { db } from "./firebase-config.js";
+import { db } from "../core/firebase-config.js";
 import {
     buildCreateMeta,
     userArchivedTaskDocRef,
     userArchivedTasksCollectionRef,
     userTasksCollectionRef,
     userTeamsCollectionRef
-} from "./data-model.js";
+} from "../core/data-model.js";
 import {
     deleteDoc, addDoc,
     onSnapshot, query, orderBy, writeBatch, serverTimestamp
@@ -262,3 +262,4 @@ document.addEventListener("userReady", e => {
         snap => renderArchive(snap.docs.map(d => ({ id: d.id, data: d.data() })))
     );
 });
+

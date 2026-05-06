@@ -1,4 +1,4 @@
-import { db } from "./firebase-config.js";
+﻿import { db } from "../core/firebase-config.js";
 import {
     buildCreateMeta,
     buildUpdateMeta,
@@ -7,7 +7,7 @@ import {
     userTaskDocRef,
     userTasksCollectionRef,
     userTeamsCollectionRef
-} from "./data-model.js";
+} from "../core/data-model.js";
 import {
     addDoc,
     updateDoc,
@@ -835,3 +835,4 @@ document.addEventListener("userReady", event => {
     subscribeToArchived();
     initCreateButton();
 });
+

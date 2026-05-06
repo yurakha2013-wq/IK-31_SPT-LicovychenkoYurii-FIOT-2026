@@ -1,12 +1,12 @@
-import { auth, db } from "./firebase-config.js";
+﻿import { auth, db } from "../core/firebase-config.js";
 import { onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
 import { getDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
-import { userProfileDocRef } from "./data-model.js";
+import { userProfileDocRef } from "../core/data-model.js";
 
 const AUTH_PAGES = ["login.html", "register.html"];
 const PUBLIC_PAGES = ["index.html", "faq.html", "404.html", ...AUTH_PAGES];
 const HOME_PAGE = "main.html";
-const DEFAULT_AVATAR_URL = "avatar-default.svg";
+const DEFAULT_AVATAR_URL = "assets/images/avatars/avatar-default.svg";
 const isPublicPage = PUBLIC_PAGES.some(page => window.location.pathname.endsWith(page));
 const isAuthPage = AUTH_PAGES.some(page => window.location.pathname.endsWith(page));
 
@@ -205,3 +205,5 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 });
+
+

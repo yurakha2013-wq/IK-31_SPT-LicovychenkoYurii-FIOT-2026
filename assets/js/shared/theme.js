@@ -1,4 +1,4 @@
-(function () {
+﻿(function () {
     const STORAGE_KEY = "siteTheme";
     const DEFAULT_THEME = "coffee";
     const THEMES = {
@@ -103,3 +103,4 @@
         normalizeTheme
     };
 })();
+

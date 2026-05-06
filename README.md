@@ -78,6 +78,18 @@
 
 ```text
 .
+├── assets/
+│   ├── css/
+│   ├── images/
+│   │   ├── avatars/
+│   │   ├── branding/
+│   │   └── icons/
+│   └── js/
+│       ├── app/
+│       ├── core/
+│       └── shared/
+├── docs/
+│   └── FIRESTORE_BLUEPRINT.md
 ├── index.html
 ├── main.html
 ├── calendar.html
@@ -86,14 +98,6 @@
 ├── profile.html
 ├── login.html
 ├── register.html
-├── script.js
-├── calendar-script.js
-├── archive-script.js
-├── add-script.js
-├── profile.js
-├── script-login.js
-├── firebase-config.js
-├── data-model.js
 ├── firebase.json
 ├── firestore.rules
 ├── firestore.indexes.json

@@ -1,7 +1,7 @@
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+﻿import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
 import { getAuth, GoogleAuthProvider, signInWithPopup, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
 import { getFirestore, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
-import { buildCreateMeta, buildUpdateMeta, userProfileDocRef } from "./data-model.js";
+import { buildCreateMeta, buildUpdateMeta, userProfileDocRef } from "../core/data-model.js";
 
 const firebaseConfig = {
     apiKey: "AIzaSyA2OHUZpaYuObF6zwZXcdSeO2EfE2WV0Ss",
@@ -84,7 +84,9 @@ document.addEventListener("DOMContentLoaded", () => {
         toggleIcon.addEventListener("click", () => {
             const isPassword = passInput.type === "password";
             passInput.type = isPassword ? "text" : "password";
-            toggleIcon.src = isPassword ? "eye-show-svgrepo-com.svg" : "eye-off-svgrepo-com.svg";
+            toggleIcon.src = isPassword
+                ? "assets/images/icons/eye-show-svgrepo-com.svg"
+                : "assets/images/icons/eye-off-svgrepo-com.svg";
         });
     }
 
@@ -165,3 +167,4 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 });
+

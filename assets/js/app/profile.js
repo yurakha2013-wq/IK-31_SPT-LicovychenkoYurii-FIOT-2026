@@ -1,12 +1,12 @@
-import { db, storage }                 from "./firebase-config.js";
-import { compressImage, base64SizeKB } from "./image-utils.js";
+﻿import { db, storage }                 from "../core/firebase-config.js";
+import { compressImage, base64SizeKB } from "../core/image-utils.js";
 import {
     buildUpdateMeta,
     userArchivedTasksCollectionRef,
     userProfileDocRef,
     userProjectsCollectionRef,
     userTeamsCollectionRef
-} from "./data-model.js";
+} from "../core/data-model.js";
 import {
     setDoc, getDoc,
     onSnapshot, query, orderBy
@@ -18,7 +18,7 @@ import {
 } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-storage.js";
 
 let uid = null;
-const DEFAULT_AVATAR_URL = "avatar-default.svg";
+const DEFAULT_AVATAR_URL = "assets/images/avatars/avatar-default.svg";
 let currentProfileState = {
     nickname: "",
     subtitle: "",
@@ -487,3 +487,4 @@ document.addEventListener("userReady", async e => {
     await loadProfile();
     subscribeToData();
 });
+

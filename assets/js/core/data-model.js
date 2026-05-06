@@ -1,4 +1,4 @@
-import {
+﻿import {
     collection,
     doc,
     serverTimestamp
@@ -87,3 +87,4 @@ export function buildUpdateMeta(ownerId) {
         updatedAt: serverTimestamp()
     };
 }
+

@@ -1,4 +1,4 @@
-(function () {
+﻿(function () {
     function createFooter() {
         if (document.querySelector(".site-footer")) return;
 
@@ -52,3 +52,4 @@
         createFooter();
     }
 })();
+

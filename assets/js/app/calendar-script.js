@@ -1,4 +1,4 @@
-/**
+﻿/**
  * CALENDAR-SCRIPT.JS
  * - Переключение недель
  * - Готово: при наведенні на обкладинку з’являється кавовий напівпрозорий кружок
@@ -6,13 +6,13 @@
  *   Якщо isReady=true — кружок із галочкою видно завжди.
  */
 
-import { db } from "./firebase-config.js";
+import { db } from "../core/firebase-config.js";
 import {
     buildUpdateMeta,
     userProjectsCollectionRef,
     userTaskDocRef,
     userTasksCollectionRef
-} from "./data-model.js";
+} from "../core/data-model.js";
 import {
     updateDoc,
     onSnapshot, query, orderBy
@@ -212,3 +212,4 @@ document.addEventListener("userReady", e => {
         buildCalendar();
     });
 });
+

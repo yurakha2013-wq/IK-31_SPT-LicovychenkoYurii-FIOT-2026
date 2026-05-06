@@ -1,18 +1,18 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="uk">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Увійти — Scanlate Tracker</title>
-    <link rel="icon" href="Logo.svg" type="image/svg+xml">
-    <script src="theme.js"></script>
-    <link rel="stylesheet" href="style-login.css">
-    <link rel="stylesheet" href="theme.css">
+    <link rel="icon" href="assets/images/branding/Logo.svg" type="image/svg+xml">
+    <script src="assets/js/shared/theme.js"></script>
+    <link rel="stylesheet" href="assets/css/style-login.css">
+    <link rel="stylesheet" href="assets/css/theme.css">
 </head>
 <body>
 <div class="login-card">
     <div class="brand-header">
-        <img src="Logo.svg" alt="Logo" class="main-logo">
+        <img src="assets/images/branding/Logo.svg" alt="Logo" class="main-logo">
         <div class="brand-text-login">
             <div class="brand-name">SCANLATE<br>PROJECT<br>TRACKER</div>
             <span class="brand-beta">Beta</span>
@@ -27,13 +27,13 @@
         </div>
         <div class="input-group">
             <input type="password" name="password" id="password" placeholder="Пароль" autocomplete="current-password" minlength="8" maxlength="72" required>
-            <img src="eye-off-svgrepo-com.svg" id="togglePassword" class="toggle-password" alt="Показати пароль">
+            <img src="assets/images/icons/eye-off-svgrepo-com.svg" id="togglePassword" class="toggle-password" alt="Показати пароль">
         </div>
 
         <button type="submit" class="btn-submit">Увійти</button>
 
         <button type="button" class="btn-google" id="googleBtn">
-            <img src="google-svgrepo-com.svg" alt="Google"> Увійти через Google
+            <img src="assets/images/icons/google-svgrepo-com.svg" alt="Google"> Увійти через Google
         </button>
 
         <div class="footer-links">
@@ -41,7 +41,8 @@
         </div>
     </form>
 </div>
-<script type="module" src="script-login.js"></script>
-<script src="footer.js"></script>
+<script type="module" src="assets/js/app/script-login.js"></script>
+<script src="assets/js/shared/footer.js"></script>
 </body>
 </html>
+

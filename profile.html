@@ -1,12 +1,12 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="uk">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Профіль — Scanlate Tracker</title>
-    <link rel="icon" href="Logo.svg" type="image/svg+xml">
-    <script src="theme.js"></script>
-    <link rel="stylesheet" href="base.css">
+    <link rel="icon" href="assets/images/branding/Logo.svg" type="image/svg+xml">
+    <script src="assets/js/shared/theme.js"></script>
+    <link rel="stylesheet" href="assets/css/base.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         .profile-layout { display:grid; grid-template-columns:290px minmax(0,1fr); gap:22px; align-items:start; width:100%; }
@@ -534,12 +534,12 @@
         }
 
     </style>
-    <link rel="stylesheet" href="theme.css">
+    <link rel="stylesheet" href="assets/css/theme.css">
 </head>
 <body>
     <header class="main-header">
         <a href="main.html" class="brand-block">
-            <img src="Logo.svg" alt="Logo" class="header-logo">
+            <img src="assets/images/branding/Logo.svg" alt="Logo" class="header-logo">
             <div class="brand-text-wrap">
                 <div class="brand-name">SCANLATE<br>PROJECT<br>TRACKER</div>
                 <span class="brand-beta">Beta</span>
@@ -553,7 +553,7 @@
         </nav>
         <div class="user-actions">
             <a href="profile.html" class="user-pill">
-                <img src="avatar-default.svg" alt="User" class="user-avatar" id="user-avatar">
+                <img src="assets/images/avatars/avatar-default.svg" alt="User" class="user-avatar" id="user-avatar">
                 <span id="user-name">...</span>
             </a>
             <a href="#" class="logout-link">ВИЙТИ</a>
@@ -567,7 +567,7 @@
             <div class="mobile-nav-divider"></div>
             <div class="mobile-user-row">
                 <a href="profile.html" class="mobile-user-pill">
-                    <img src="avatar-default.svg" class="user-avatar" id="user-avatar-mobile" style="width:32px;height:32px;">
+                    <img src="assets/images/avatars/avatar-default.svg" class="user-avatar" id="user-avatar-mobile" style="width:32px;height:32px;">
                     <span id="user-name-mobile">...</span>
                 </a>
                 <a href="#" class="logout-link">ВИЙТИ</a>
@@ -589,7 +589,7 @@
                         <h3 class="profile-title"><i class="fas fa-user-circle"></i> Профіль</h3>
                         <div class="profile-avatar-shell">
                             <div class="avatar-wrap" id="avatar-wrap">
-                                <img src="avatar-default.svg" alt="Аватар" id="profile-avatar-img">
+                                <img src="assets/images/avatars/avatar-default.svg" alt="Аватар" id="profile-avatar-img">
                                 <div class="avatar-overlay"><i class="fas fa-camera"></i></div>
                                 <input type="file" id="avatar-file-input" accept="image/*" hidden>
                             </div>
@@ -701,10 +701,11 @@
         slider.scrollBy({ left: dir * 150, behavior: "smooth" });
     };
     </script>
-    <script type="module" src="header.js"></script>
-    <script type="module" src="profile.js"></script>
-    <script src="footer.js"></script>
+    <script type="module" src="assets/js/shared/header.js"></script>
+    <script type="module" src="assets/js/app/profile.js"></script>
+    <script src="assets/js/shared/footer.js"></script>
 </body>
 </html>
+
 
 

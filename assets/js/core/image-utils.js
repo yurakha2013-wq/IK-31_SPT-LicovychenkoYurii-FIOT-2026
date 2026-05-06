@@ -1,4 +1,4 @@
-export function compressImage(file, maxW = 400, maxH = 400, quality = 0.75) {
+﻿export function compressImage(file, maxW = 400, maxH = 400, quality = 0.75) {
     return new Promise((resolve, reject) => {
         if (!file || !file.type.startsWith("image/")) {
             reject(new Error("Не изображение"));
@@ -44,3 +44,4 @@ export function base64SizeKB(base64) {
     const len = base64.replace(/^data:.+;base64,/, "").length;
     return Math.round((len * 3 / 4) / 1024);
 }
+

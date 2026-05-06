@@ -1,4 +1,4 @@
-/**
+﻿/**
  * ADD-SCRIPT.JS
  * Пункт 4: редагування команд і проєктів
  * - Кнопка ✏️ поруч із кожною командою/проєктом
@@ -7,8 +7,8 @@
  * - У коді присутні: делегування подій, джс єкспресс, адаптивність
  */
 
-import { db }                          from "./firebase-config.js";
-import { compressImage, base64SizeKB } from "./image-utils.js";
+import { db }                          from "../core/firebase-config.js";
+import { compressImage, base64SizeKB } from "../core/image-utils.js";
 import {
     buildCreateMeta,
     buildUpdateMeta,
@@ -16,7 +16,7 @@ import {
     userProjectsCollectionRef,
     userTeamDocRef,
     userTeamsCollectionRef
-} from "./data-model.js";
+} from "../core/data-model.js";
 import {
     addDoc, updateDoc, deleteDoc,
     onSnapshot, query, orderBy
@@ -358,3 +358,4 @@ function subscribeToData() {
 }
 
 document.addEventListener("userReady", e => { uid = e.detail.uid; subscribeToData(); });
+

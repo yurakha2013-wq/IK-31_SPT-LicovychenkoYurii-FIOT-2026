@@ -1,4 +1,4 @@
-{
+﻿{
   "storage": {
     "rules": "storage.rules"
   },
@@ -13,7 +13,7 @@
       "firestore.rules",
       "firestore.indexes.json",
       "storage.rules",
-      "FIRESTORE_BLUEPRINT.md",
+      "docs/FIRESTORE_BLUEPRINT.md",
       "**/.*",
       "**/node_modules/**"
     ],
@@ -42,3 +42,4 @@
     ]
   }
 }
+
