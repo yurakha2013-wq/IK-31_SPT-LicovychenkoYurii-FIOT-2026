@@ -1,5 +1,5 @@
-﻿import { db, storage }                 from "../core/firebase-config.js";
-import { compressImage, base64SizeKB } from "../core/image-utils.js";
+﻿import { db }                          from "../core/firebase-config.js";
+import { compressImage, base64SizeKB, readFileAsDataURL } from "../core/image-utils.js";
 import {
     buildUpdateMeta,
     userArchivedTasksCollectionRef,
@@ -11,12 +11,6 @@ import {
     setDoc, getDoc,
     onSnapshot, query, orderBy
 } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
-import {
-    getDownloadURL,
-    ref,
-    uploadBytes
-} from "https://www.gstatic.com/firebasejs/10.7.1/firebase-storage.js";
-
 let uid = null;
 const DEFAULT_AVATAR_URL = "assets/images/avatars/avatar-default.svg";
 let currentProfileState = {
@@ -195,13 +189,6 @@ function updateProfileRank(archivedCount) {
     });
 }
 
-async function uploadAvatarGif(file) {
-    const extension = (file.name.split(".").pop() || "gif").toLowerCase();
-    const fileRef = ref(storage, `avatars/${uid}/${Date.now()}.${extension}`);
-    await uploadBytes(fileRef, file, { contentType: file.type || "image/gif" });
-    return getDownloadURL(fileRef);
-}
-
 function getTeamAccent(name = "") {
     const palette = ["#7c4f2a", "#c56b3d", "#587b6a", "#a44a3f", "#5f7ea3", "#8b6d52", "#c08a2e"];
     const hash = [...name].reduce((acc, ch) => acc + ch.charCodeAt(0), 0);
@@ -347,12 +334,13 @@ function initAvatarUpload() {
 
         try {
             if (file.type === "image/gif") {
-                if (file.size > 5 * 1024 * 1024) {
-                    alert("GIF-аватар має бути не більше 5 МБ.");
+                const gifDataUrl = await readFileAsDataURL(file);
+                const gifSizeKB = base64SizeKB(gifDataUrl);
+                if (gifSizeKB > 700) {
+                    alert("GIF-аватар завеликий для режиму без Firebase Storage. Оберіть файл до 700 КБ.");
                     return;
                 }
-                const gifURL = await uploadAvatarGif(file);
-                if (img) img.src = gifURL;
+                if (img) img.src = gifDataUrl;
                 return;
             }
 

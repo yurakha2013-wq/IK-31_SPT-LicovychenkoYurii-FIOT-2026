@@ -45,3 +45,17 @@ export function base64SizeKB(base64) {
     return Math.round((len * 3 / 4) / 1024);
 }
 
+export function readFileAsDataURL(file) {
+    return new Promise((resolve, reject) => {
+        if (!file) {
+            reject(new Error("Файл не вибрано"));
+            return;
+        }
+
+        const reader = new FileReader();
+        reader.onload = event => resolve(event.target?.result || "");
+        reader.onerror = () => reject(new Error("Не вдалося прочитати файл"));
+        reader.readAsDataURL(file);
+    });
+}
+
