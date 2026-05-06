@@ -446,9 +446,9 @@ function updateStats() {
     const paidEl = document.getElementById("stat-paid");
     const debtEl = document.getElementById("stat-debt");
 
-    if (earnedEl) earnedEl.innerText = `${earned}₽`;
-    if (paidEl) paidEl.innerText = `${paid}₽`;
-    if (debtEl) debtEl.innerText = `${earned - paid}₽`;
+    if (earnedEl) earnedEl.innerText = `${earned}₴`;
+    if (paidEl) paidEl.innerText = `${paid}₴`;
+    if (debtEl) debtEl.innerText = `${earned - paid}₴`;
 }
 
 function findTaskInCache(fsId) {
@@ -568,7 +568,7 @@ function createTaskRow(data, fsId) {
         <td><div class="task-cell">${taskIcons[data.taskType] || ""}<span class="task-name-text">${escapeHTML(taskName)}</span></div></td>
         <td>${escapeHTML(chapterValue)}</td>
         <td>${escapeHTML(dateValue)}</td>
-        <td class="price-tag" data-price="${priceValue}">${priceValue}₽</td>
+            <td class="price-tag" data-price="${priceValue}">${priceValue}₴</td>
         <td><input type="checkbox" class="custom-checkbox is-ready" ${data.isReady ? "checked" : ""}></td>
         <td><input type="checkbox" class="custom-checkbox is-paid" ${data.isPaid ? "checked" : ""}></td>
         <td>

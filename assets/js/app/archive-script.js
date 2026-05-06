@@ -123,7 +123,7 @@ function renderArchive(docs) {
             <td><div class="task-cell">${taskIcons[data.taskType] || ""}<span>${escapeHTML(taskName)}</span></div></td>
             <td>${escapeHTML(chapterValue)}</td>
             <td>${escapeHTML(archiveDate)}</td>
-            <td>${priceValue}₽</td>
+            <td>${priceValue}₴</td>
             <td><span class="status-badge ${data.isPaid ? "paid" : "unpaid"}">${data.isPaid ? "Оплачено" : "Не оплачено"}</span></td>
             <td>
                 <div class="row-actions">
@@ -220,12 +220,12 @@ window.exportToExcel = function () {
         "Команда": displayTextValue(t.team), "Проєкт": displayTextValue(t.project),
         "Задача": displayTextValue(t.taskType), "№ глави": t.chapter || EMPTY_MARK,
         "Дата архіву": displayTextValue(t.archiveDate),
-        "Ціна (руб.)": parseInt(t.price) || 0,
+            "Ціна (грн.)": parseInt(t.price) || 0,
         "Виконано": t.isReady ? "Так" : "Ні",
         "Оплачено":  t.isPaid  ? "Так" : "Ні"
     }));
     const total = data.reduce((s, t) => s + (parseInt(t.price) || 0), 0);
-    rows.push({ "Команда": "Усього", "Ціна (руб.)": total });
+    rows.push({ "Команда": "Усього", "Ціна (грн.)": total });
     const ws = XLSX.utils.json_to_sheet(rows);
     ws["!cols"] = [{wch:18},{wch:22},{wch:16},{wch:10},{wch:14},{wch:14},{wch:12},{wch:12}];
     const wb = XLSX.utils.book_new();

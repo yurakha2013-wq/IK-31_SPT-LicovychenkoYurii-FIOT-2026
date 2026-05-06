@@ -134,7 +134,7 @@ function buildCard(task) {
 
     let chips = "";
     if (task.taskType) chips += `<span class="cal-chip task">${escapeHTML(task.taskType)}</span>`;
-    if (task.price && parseInt(task.price) > 0) chips += `<span class="cal-chip price">${parseInt(task.price, 10)}₽</span>`;
+    if (task.price && parseInt(task.price) > 0) chips += `<span class="cal-chip price">${parseInt(task.price, 10)}₴</span>`;
 
     card.innerHTML = `
         <div class="cal-card-cover">
